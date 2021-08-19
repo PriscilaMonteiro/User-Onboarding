@@ -7,18 +7,18 @@ export default function Team({ details }) {
 
   return (
     <div className='friend container'>
-      <h2>{details.name}</h2>
+      <h2>{details.first_name}</h2>
       <p>Email: {details.email}</p>
-      {/* <p>Role: {details.role}</p> */}
+      <p>Role: {details.role}</p>
       <p>Password: {details.password}</p>
       <p>Terms of Service: {details.terms}</p>
 
       {/* {
         !!details.terms && !!details.terms.length &&
         <div>
-          Terms of Service TESTTESTTEST:
+          Terms of Service:
           <ul>
-            {details.terms.map((like, idx) => <li key={idx}>{like}</li>)}
+            {details.terms.map((role, id) => <li key={id}>{role}</li>)}
           </ul>
         </div>
       } */}

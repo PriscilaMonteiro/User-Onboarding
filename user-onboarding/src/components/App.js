@@ -1,15 +1,14 @@
-import '../App.css';
 import React, { useState, useEffect } from 'react'
 import TeamForm from './TeamForm';
 import Team from './Team';
 import axios from 'axios';
 import * as yup from 'yup';
 import schema from '../validation/formSchema';
-
+import '../App.css';
 
 const initialFormValues = { 
   first_name: '', 
-  // role: '', 
+  role: '', 
   email: '', 
   password: '', 
   terms: '', 
@@ -17,16 +16,13 @@ const initialFormValues = {
 
 const initialFormErrors = { 
   first_name: '', 
-  // role: '', 
+  role: '', 
   email: '', 
   password: '', 
   terms: '', 
 }
 
-  // { first_name: 'Austen Allred', role: 'Founder & CEO', email: 'austen@lambda.com' },
-  // { first_name: 'Chris Atoki', role: 'Instructor', email: 'chris@lambda.com' },
-  // { first_name: 'Brit hemming', role: 'Instructor', email: 'brit@lambda.com' },
-  // { first_name: 'Priscila Monteiro', role: 'Student', email: 'priscila@lambda.com' }
+  
 
 const initialTeam = []
 
@@ -42,7 +38,6 @@ export default function App() {
   const getTeam = () => {
     axios.get('https://reqres.in/api/users')
       .then(res => {
-        console.log(res)
         setTeam(res.data.data);
       }).catch(err => console.error(err))
   }

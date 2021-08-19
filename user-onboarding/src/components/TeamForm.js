@@ -22,7 +22,7 @@ const onChange = evt => {
 
   return (
     <form className='form container' onSubmit={onSubmit}>
-      <div className='form-group submit'>
+      <div className='box'>
         <h2>Add a Team Member</h2>
 
         <button disable={disabled.toString()}>submit</button>
@@ -31,14 +31,14 @@ const onChange = evt => {
           <div>{errors.first_name}</div>
           <div>{errors.email}</div>
           <div>{errors.terms}</div>
-          {/* <div>{errors.role}</div> */}
+          <div>{errors.role}</div>
           <div>{errors.password}</div>
         </div>
 
       </div>
 
       <div className='form-group inputs'>
-        <h4>Informations</h4>
+        <h2>Informations</h2>
 
         <label> Name 
           <input
@@ -56,7 +56,7 @@ const onChange = evt => {
             onChange={onChange}
           />
         </label>
-         {/* <label>Role
+         <label>Role
           <select value={values.role} name="role" onChange={onChange}>
             <option value=''>-- Select a Role --</option>
             <option value='Student'>Student</option>
@@ -65,9 +65,9 @@ const onChange = evt => {
             <option value='Alumni'>Alumni</option>
             <option value='CEO'>Founder and CEO</option>
           </select>
-        </label> */}
+        </label>
          <div className='form-group checkboxes'>
-              <h4>Terms of Service</h4>
+              <h2>Terms of Service</h2>
               <label>Yes
                 <input
                   type="radio"

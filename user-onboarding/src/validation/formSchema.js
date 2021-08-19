@@ -11,9 +11,9 @@ const formSchema = yup.object().shape({
     .trim()
     .email('Must be a valid email address')
     .required('Email is required'),
-  // role: yup
-  //   .string()
-  //   .oneOf(['instructor', 'student','alumni', 'tl'], 'Role is required'),
+  role: yup
+    .string()
+    .oneOf(['Student', 'TL','Instructor', 'Alumni','CEO']),
   password:  yup
     .string()
     .trim(),
@@ -24,3 +24,5 @@ const formSchema = yup.object().shape({
 })
 
 export default formSchema
+
+
