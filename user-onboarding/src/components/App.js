@@ -1,82 +1,113 @@
 import '../App.css';
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import TeamForm from './TeamForm';
+import Team from './Team';
+import axios from 'axios';
+import * as yup from 'yup';
+import schema from '../validation/formSchema';
 
-const Team = [
-  { Name: 'Austen Allred', Role: 'Founder & CEO', email: 'austen@lambda.com' },
-  { Name: 'Chris Atoki', Role: 'Instructor', email: 'chris@lambda.com' },
-  { Name: 'Brit hemming', Role: 'Instructor', email: 'brit@lambda.com' },
-  { Name: 'Priscila Monteiro', Role: 'Student', email: 'priscila@lambda.com' }
 
-]
-const initialFormValues = { Name: '', Role: '', email: '' }
+const initialFormValues = { 
+  first_name: '', 
+  // role: '', 
+  email: '', 
+  password: '', 
+  terms: '', 
+}
 
-function App() {
+const initialFormErrors = { 
+  first_name: '', 
+  // role: '', 
+  email: '', 
+  password: '', 
+  terms: '', 
+}
+
+  // { first_name: 'Austen Allred', role: 'Founder & CEO', email: 'austen@lambda.com' },
+  // { first_name: 'Chris Atoki', role: 'Instructor', email: 'chris@lambda.com' },
+  // { first_name: 'Brit hemming', role: 'Instructor', email: 'brit@lambda.com' },
+  // { first_name: 'Priscila Monteiro', role: 'Student', email: 'priscila@lambda.com' }
+
+const initialTeam = []
+
+const initialDisabled = true
+
+
+export default function App() {
+  const [team, setTeam] = useState(initialTeam)
   const [formValues, setFormValues] = useState(initialFormValues)
-  const [team, setTeam] = useState(Team)
+  const [formErrors, setFormErrors] = useState(initialFormErrors)
+  const [disabled, setDisabled] = useState(initialDisabled)
 
-  const change =(event) => {
-    const { value, name } = event.target
-    setFormValues({...formValues, [name]:value})
+  const getTeam = () => {
+    axios.get('https://reqres.in/api/users')
+      .then(res => {
+        console.log(res)
+        setTeam(res.data.data);
+      }).catch(err => console.error(err))
   }
+  const postNewMember = newMember => {
+    axios.post('https://reqres.in/api/users', newMember)
+    .then(res =>{
+      setTeam([res.data, ...team]);
+    }).catch(err => console.error(err));
+    setFormValues(initialFormValues);
+  }
+  const validate = (name, value) => {
+    yup.reach(schema, name)
+      .validate(value)
+      .then(() => setFormErrors({ ...formErrors, [name]: '' }))
+      .catch(err => setFormErrors({...formErrors, [name]: err.errors[0]})) 
+  }
+  const inputChange = (name, value) => {
+    validate(name, value)
 
-  const submit = (event) => {
-    event.preventDefault()
-    const newMembers = {
-      Name: formValues.Name.trim(),
-      Role: formValues.Role.trim(),
+    setFormValues({
+      ...formValues,
+      [name]: value // NOT AN ARRAY
+    })
+  }
+  const formSubmit = () => {
+    const newTeamMember = {
+      first_name: formValues.first_name.trim(),
+      password: formValues.password.trim(),
       email: formValues.email.trim(),
+      terms: formValues.terms.trim(),
     }
-    setTeam([...team, newMembers])
-    setFormValues(initialFormValues)
+    postNewMember(newTeamMember);
   }
+
+  useEffect(() => {
+    getTeam()
+  }, [])
+
+  useEffect(() => {
+    schema.isValid(formValues).then(valid => setDisabled(!valid))
+  }, [formValues])
 
   return (
     
-    <div className="form container">
-      <h1>Team Builder</h1>
-        <div className="form container" >
-          {
-            team.map((member, idx) => {
-            return <div className='form-group inputs ' 
-            key={idx}>{member.Name} - {member.Role} - {member.email}</div>
-            })
-          }
-        </div>
+    <div className="container">
+      <header><h1>User Onboarding</h1></header>
+      
+      <TeamForm
+        values={formValues}
+        change={inputChange}
+        submit={formSubmit}
+        disabled={disabled}
+        errors={formErrors}
+      />
         
-          <form className="form container" onSubmit={submit}>
-            <label>Name
-              <input
-                type='text'
-                name='Name'
-                onChange={change}
-                value={formValues.Name}
-              />
-            </label>
-            <label> E-mail
-              <input
-                type='text'
-                name='Role'
-                onChange={change}
-                value={formValues.Role}
-              />
-            </label>
-            <label>Role
-              <select value={formValues.role} name="role" onChange={change}>
-            <option value=''>-- Select a Role --</option>
-            <option value='Student'>Student</option>
-            <option value='TL'>Team Lead</option>
-            <option value='Instructor'>Instructor</option>
-            <option value='Alumni'>Alumni</option>
-            <option value='Founder and CEO'></option>
-          </select>
-            </label>
-            <button>submit</button>
-          </form>
-        {/* </header>  */}
-         
+      {
+        team.map(member => {
+          return (
+            <Team key={member.id} details={member}/>
+          )  
+        })
+      }
+           
     </div>
   )
 
 }
 
-export default App;

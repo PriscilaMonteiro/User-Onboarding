@@ -1,65 +1,98 @@
 import React from 'react'
 
 export default function TeamForm(props) {
-const { values, update, submit } = props
-
-const onChange = evt => {
-  const name = evt.target.name;
-  const value = evt.target.value;
-  update(name,value);
-}
+const { 
+  values, 
+  submit,
+  change, 
+  disabled,
+  errors,
+} = props
 
 const onSubmit = evt => {
   evt.preventDefault();
   submit();
 }
 
+const onChange = evt => {
+  const { name, value, checked, type } = evt.target
+  const valueToUse = type === 'checkbox' ? checked : value;
+  change(name, valueToUse)
+  }
+
   return (
     <form className='form container' onSubmit={onSubmit}>
+      <div className='form-group submit'>
+        <h2>Add a Team Member</h2>
+
+        <button disable={disabled.toString()}>submit</button>
+
+        <div className='errors'>
+          <div>{errors.first_name}</div>
+          <div>{errors.email}</div>
+          <div>{errors.terms}</div>
+          {/* <div>{errors.role}</div> */}
+          <div>{errors.password}</div>
+        </div>
+
+      </div>
+
       <div className='form-group inputs'>
+        <h4>Informations</h4>
+
         <label> Name 
           <input
             type="text"
-            name="name"
-            value={values.name}
-            placeholder="Type Team Member name"
-            maxLength="30"
+            name="first_name"
+            value={values.first_name}
             onChange={onChange}
           />
-
         </label>
         <label> Email 
           <input
-            type="email"
+            type="text"
             name="email"
             value={values.email}
-            placeholder="Type Team Member e-mail"
-            maxLength="50"
             onChange={onChange}
           />
-
         </label>
-
-         <label>Role
-          {/* 🔥 STEP 5 - Make dropdown for role. */}
+         {/* <label>Role
           <select value={values.role} name="role" onChange={onChange}>
             <option value=''>-- Select a Role --</option>
             <option value='Student'>Student</option>
             <option value='TL'>Team Lead</option>
             <option value='Instructor'>Instructor</option>
             <option value='Alumni'>Alumni</option>
-            <option value='Founder and CEO'></option>
+            <option value='CEO'>Founder and CEO</option>
           </select>
-        </label>
-        <div className='submit'>
-          <button>submit</button>
-        </div>
+        </label> */}
+         <div className='form-group checkboxes'>
+              <h4>Terms of Service</h4>
+              <label>Yes
+                <input
+                  type="radio"
+                  name="terms"
+                  value="yes"
+                  checked={values.terms === 'yes'}
+                  onChange={onChange}
+                />
 
-      
-    </div>
+              </label>
 
+              <label>No
+                <input
+                  type="radio"
+                  name="terms"
+                  value="no"
+                  checked={values.terms === 'yes'}
+                  onChange={onChange}
+                />
+
+              </label>
+
+              </div>
+      </div>
     </form>
-    
   )
 }
 
