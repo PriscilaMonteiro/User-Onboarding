@@ -16,7 +16,9 @@ const formSchema = yup.object().shape({
     .oneOf(['Student', 'TL','Instructor', 'Alumni','CEO']),
   password:  yup
     .string()
-    .trim(),
+    .trim()
+    .required('Password is required')
+    .min(4, 'Password must be at least 6 characters long'),
   
   terms:  yup
     .string()

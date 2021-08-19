@@ -1,23 +1,23 @@
 import React from 'react'
 
 export default function TeamForm(props) {
-const { 
-  values, 
-  submit,
-  change, 
-  disabled,
-  errors,
-} = props
+  const { 
+    values, 
+    submit,
+    change, 
+    disabled,
+    errors,
+  } = props
 
-const onSubmit = evt => {
-  evt.preventDefault();
-  submit();
-}
+  const onSubmit = evt => {
+    evt.preventDefault();
+    submit();
+  }
 
-const onChange = evt => {
-  const { name, value, checked, type } = evt.target
-  const valueToUse = type === 'checkbox' ? checked : value;
-  change(name, valueToUse)
+  const onChange = evt => {
+    const { name, value, checked, type } = evt.target
+    const valueToUse = type === 'checkbox' ? checked : value;
+    change(name, valueToUse)
   }
 
   return (
@@ -53,6 +53,14 @@ const onChange = evt => {
             type="text"
             name="email"
             value={values.email}
+            onChange={onChange}
+          />
+        </label>
+        <label> Password 
+          <input
+            type="text"
+            name="password"
+            value={values.password}
             onChange={onChange}
           />
         </label>

@@ -55,12 +55,13 @@ export default function App() {
       .catch(err => setFormErrors({...formErrors, [name]: err.errors[0]})) 
   }
   const inputChange = (name, value) => {
-    validate(name, value)
+    validate(name, value);
+    
 
     setFormValues({
       ...formValues,
       [name]: value // NOT AN ARRAY
-    })
+    });
   }
   const formSubmit = () => {
     const newTeamMember = {
@@ -68,7 +69,9 @@ export default function App() {
       password: formValues.password.trim(),
       email: formValues.email.trim(),
       terms: formValues.terms.trim(),
+      role: formValues.role,
     }
+
     postNewMember(newTeamMember);
   }
 
