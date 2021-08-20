@@ -10,7 +10,7 @@ describe('Onboarding app', () => {
   const passwordInput = () => cy.get('input[name=password]')
   const roleInput = () => cy.get('select[name=role]')
   const foobarInput = () => cy.get('input[name=foobar]')
-  const submitBtn = () => cy.get('button[id="submitBtn"]')
+  const submitBtn= () => cy.get('button[id="submitBtn"]')
   const termsInput = () => cy.get('input[name=terms]')
   
  
@@ -24,52 +24,54 @@ describe('Onboarding app', () => {
     expect({}).to.eql({}) // equ ie ==
   })
 
-})
-
-it('The proper elements are showing', () => {
-  nameInput().should('exist')
-  emailInput()().should('exist')
-  passwordInput().should('exist')
-  roleInput().should('exist')
-  foobarInput().should('not.exist')
-  submitBtn().should('exist')
-  termsInput().should('exist')
-  
-
-  cy.contains('submit').should('exist')
-
-})
 
 
-describe('Filling out the inputs', () => {
-  it('Can navigate to the site', () => {
-    cy.url().should('include', 'localhost')
+  it('The proper elements are showing', () => {
+    nameInput().should('exist')
+    emailInput().should('exist')
+    passwordInput().should('exist')
+    roleInput().should('exist')
+    foobarInput().should('not.exist')
+    submitBtn().should('exist')
+    termsInput().should('exist')
+    
+
+    cy.contains('submit').should('exist')
+
   })
 
-  it('Submit button starts out disabled', () => {
-    submitBtn().should('be.disabled')
-  })
 
-  it('Can type in the input', () => {
-    nameInput()
-      .should('have.value', '')
-      .type('Priscila')
-      .should('have.value', 'Priscila')
+  describe('Filling out the inputs', () => {
+    it('Can navigate to the site', () => {
+      cy.url().should('include', 'localhost')
+    })
 
-    emailInput()
-      .should('have.value', '')
-      .type('pririmonteiro@teste.com')
-      .should('have.value', 'pririmonteiro@teste.com' )
+    it('Submit button starts out disabled', () => {
+      submitBtn().should('be.disabled')
+    })
 
-    passwordInput()
-      .should('have.value', '')
-      .type('1234567')
-      .should('have.value', '1234567' )
-  })
+    it('Can type in the input', () => {
+      nameInput()
+        .should('have.value', '')
+        .type('Priscila')
+        .should('have.value', 'Priscila')
 
-  it('can check Yes', () => {
-    termsInput().check('yes')
-    cy.get(':checked').should('be.checked').passwordInput('have.value', 'yes')
+      emailInput()
+        .should('have.value', '')
+        .type('pririmonteiro@teste.com')
+        .should('have.value', 'pririmonteiro@teste.com' )
+
+      passwordInput()
+        .should('have.value', '')
+        .type('1234567')
+        .should('have.value', '1234567' )
+    })
+
+    it('can check Yes', () => {
+      termsInput().check('yes')
+      cy.get(':checked').should('be.checked')
+    })
+
   })
 
 
