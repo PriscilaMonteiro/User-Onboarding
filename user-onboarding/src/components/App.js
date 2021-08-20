@@ -78,7 +78,7 @@ export default function App() {
   useEffect(() => {
     getTeam()
   }, [])
-
+// Disabled isnt working
   useEffect(() => {
     schema.isValid(formValues).then(valid => setDisabled(!valid))
   }, [formValues])

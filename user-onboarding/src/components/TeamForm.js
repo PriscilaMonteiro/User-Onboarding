@@ -25,7 +25,7 @@ export default function TeamForm(props) {
       <div className='box'>
         <h2>Add a Team Member</h2>
 
-        <button disable={disabled.toString()}>submit</button>
+        <button id='submitBtn' disable={disabled}>submit</button>
 
         <div className='errors'>
           <div>{errors.first_name}</div>
@@ -92,7 +92,7 @@ export default function TeamForm(props) {
                   type="radio"
                   name="terms"
                   value="no"
-                  checked={values.terms === 'yes'}
+                  checked={values.terms === 'no'}
                   onChange={onChange}
                 />
 

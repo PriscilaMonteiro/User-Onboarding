@@ -1,27 +1,80 @@
+describe('Onboarding app', () => {
+  beforeEach(() => {
+    // make sure each test starts with fresh data
+    cy.visit('http://localhost:3000')
+  })
 
-// describe('Onboarding app', () => {
-//   beforeEach(() => {
-//     // make sure each test starts with fresh data
-//     cy.visit('http://localhost:3000')
-//   })
+  // create helpers to collect dom elements
+  const nameInput = () => cy.get('input[name=first_name]')
+  const emailInput = () => cy.get('input[name=email]')
+  const passwordInput = () => cy.get('input[name=password]')
+  const roleInput = () => cy.get('select[name=role]')
+  const foobarInput = () => cy.get('input[name=foobar]')
+  const submitBtn = () => cy.get('button[id="submitBtn"]')
+  const termsInput = () => cy.get('input[name=terms]')
+  
+ 
 
-//   // create helpers to collect dom elements
-//   const nameInput = () => cy.get('input[name=first_name]')
-//   const emailInput = () => cy.get('input[name=email]')
-//   const passwordInput = () => cy.get('input[name=password]')
-//   const roleInput = () => cy.get('select[name=role]')
-//   const foobarInput = () => cy.get('input[name=foobar]')
-//   const submitBtn= () => cy.get('button[id="submitBtn"]')
-//   const cancelBtn = () => cy.get(`button[id="cancelBtn"]`)
+  it('Sanity check to make sure that tests work', () => {
+    //  "it" is a test
+    // "expect" is an assertion
+    expect(1+2).to.equal(3)
+    expect(2+2).not.to.equal(5)
+    expect({}).not.to.equal({}) // equal ie ===
+    expect({}).to.eql({}) // equ ie ==
+  })
 
-// it('Sanity check to make sure that tests work', () => {
-//     //  "it" is a test
-//     // "expect" is an assertion
-//     expect(1+2).to.equal(3)
-//     expect(2+2).not.to.equal(5)
-//     expect({}).not.to.equal({}) // equal ie ===
-//     expect({}).to.eql({}) // equ ie ==
-//   })
+})
+
+it('The proper elements are showing', () => {
+  nameInput().should('exist')
+  emailInput()().should('exist')
+  passwordInput().should('exist')
+  roleInput().should('exist')
+  foobarInput().should('not.exist')
+  submitBtn().should('exist')
+  termsInput().should('exist')
+  
+
+  cy.contains('submit').should('exist')
+
+})
+
+
+describe('Filling out the inputs', () => {
+  it('Can navigate to the site', () => {
+    cy.url().should('include', 'localhost')
+  })
+
+  it('Submit button starts out disabled', () => {
+    submitBtn().should('be.disabled')
+  })
+
+  it('Can type in the input', () => {
+    nameInput()
+      .should('have.value', '')
+      .type('Priscila')
+      .should('have.value', 'Priscila')
+
+    emailInput()
+      .should('have.value', '')
+      .type('pririmonteiro@teste.com')
+      .should('have.value', 'pririmonteiro@teste.com' )
+
+    passwordInput()
+      .should('have.value', '')
+      .type('1234567')
+      .should('have.value', '1234567' )
+  })
+
+  it('can check Yes', () => {
+    termsInput().check('yes')
+    cy.get(':checked').should('be.checked').passwordInput('have.value', 'yes')
+  })
+
+
+
+})
 
 
 
@@ -150,3 +203,4 @@
 //     })
 //   })
 // })
+
